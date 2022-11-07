@@ -44,7 +44,7 @@ int* genHeap(int* arr, int n){
     //start from the last parent and sort from bottom to top
 
     int pEnd = n/2 - 1; 
-    for (int i = pEnd; i ==0; i--){
+    for (int i = pEnd; i >=0; i--){
         heapify(arr, n, i); 
     }
     return arr; 
