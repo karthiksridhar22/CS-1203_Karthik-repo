@@ -25,7 +25,9 @@ void swap(int* a, int* b){
 int main(){
     int * a = createArr(n);
 
-    for (i =0; i < n, )
+    for (int i =0; i < n; i++){
+        printf("%d ", a[i]);
+    }
 
 
     return 0;
