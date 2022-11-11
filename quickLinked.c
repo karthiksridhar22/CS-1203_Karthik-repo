@@ -57,12 +57,13 @@ b->val = temp;
 
 struct node* getTail(struct node* head)
 {
-    while (head->next != NULL)
+    struct node* headref; 
+    headref = head; 
+    while (headref->next != NULL)
     {
-        head = head->next; 
+        headref = headref->next; 
     }
-printf(" tail: %d ", head-> val);
-return head; 
+return headref; 
 
 }
 struct node* partition(struct node* head, struct node* tail)
