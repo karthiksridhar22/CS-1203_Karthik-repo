@@ -31,7 +31,7 @@ void printList(struct node* n){
 struct node* Arr2Link(int a[])
 {   
     struct node * head; 
-    head = malloc(sizeof(struct node*));
+    head = malloc(sizeof(struct node));
     head -> next = malloc(sizeof(struct node)); 
         head -> val = a[0]; 
         struct node* temp = head; 

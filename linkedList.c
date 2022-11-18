@@ -14,8 +14,9 @@
     void printList(struct node* n){
 
     while (n != NULL){
-        printf("%d ->", n -> val);
-        n = n -> next; 
+        nodeAddress temp = n
+        printf("%d ->", temp -> val);
+        temp = temp -> next; 
 
 }
 }

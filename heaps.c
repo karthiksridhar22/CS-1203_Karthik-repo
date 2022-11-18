@@ -2,7 +2,19 @@
 #include<stdlib.h>
 #include<time.h>
 
-int n = 10; 
+ 
+int a[] = {39, 67, 65, 12, 34, 19, 87, 43, 12, 97, 98, 99};
+int n = sizeof(a)/sizeof(a[0]);
+
+void printArr(int* a, int n)
+{
+    for (int i = 0; i < n; i++)
+    {
+        printf(" %d ", a[i]); 
+    }
+}
+
+
 
 int* createArr(int n){
     int* arr = malloc(sizeof(int)*n); 
@@ -25,17 +37,17 @@ void swap(int* a, int* b){
 void heapify(int* arr, int n, int p){
 int c1 = 2*p + 1;
 int c2 = 2*p + 2; 
-int min = p; 
+int max = p; 
 
-if(arr[c1] < arr[min] && c1 < n) min = c1;
+if(arr[c1] > arr[max] && c1 < n) max = c1;
 
-if (c2 < n && arr[c2] < arr[min]) min = c2; 
+if (c2 < n && arr[c2] > arr[max]) max = c2; 
 
-if (min == p) return;
+if (max == p) return;
 
 else{
-    swap(&arr[min], &arr[p]);
-    heapify(arr, n, min); 
+    swap(&arr[max], &arr[p]);
+    heapify(arr, n, max); 
 }
 }
 
@@ -55,12 +67,26 @@ void printList(int* arr){
         printf(" %d ", arr[i]);
     }
 }
-int main(){
 
-    int* arr = createArr(n);
-    printList(arr);
-    printf("/n");
-    int* a = genHeap(arr, n);
-    printList(a);
+void heapSort(int*a, int n)
+{
+    for (int i = n/2 - 1; i >= 0; i--)
+    heapify(a, n, i);
+
+    for (int i = n-1; i >=0; i--)
+    {
+        swap(&a[0], &a[i]);
+        heapify(a, i, 0);
+    }
+}
+
+
+
+
+int main(){
+heapSort(a, n);
+printArr(a, n);
+
     return 0; 
 }
+
