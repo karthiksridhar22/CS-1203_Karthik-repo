@@ -32,7 +32,7 @@ void insertionSort(int* arr, int n)
 }
 
 /*
-void printArr(int arr[], int n)
+void printArr(int* arr, int n)
 {
   
     for (int i = 0; i < n; i++)
