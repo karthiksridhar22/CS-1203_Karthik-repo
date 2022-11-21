@@ -41,7 +41,6 @@ struct node* Arr2Link(int a[])
         temp = temp -> next; 
         temp -> val = a[i];
     }
-    printList(head);
     return head;
 
 }
@@ -87,11 +86,11 @@ struct node* partition(struct node* head, struct node* tail)
 
 void quicksortRecursion(struct node*head, struct node* tail)
 {   
-    if (head < tail)
+    if (head <= tail)
     {
         struct node* pivot = partition(head, tail);
-        partition(head, pivot); 
-        partition(pivot, tail);
+        quicksortRecursion(head, pivot); 
+        quicksortRecursion(pivot, tail);
     }
 }
 
