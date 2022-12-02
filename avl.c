@@ -79,7 +79,7 @@ int getBalanceFactor(struct node* node)
 NodeAddress insertNode(NodeAddress node, int val)
 {
     if (node == NULL)
-        createNode(val);
+       return createNode(val);
     
     // finding the right place to insert the node
     if (val < node -> val)
@@ -157,7 +157,6 @@ int main()
 {
     NodeAddress root = NULL;
     insertNode(root, 5);
-    
     return 0;
 }
 
