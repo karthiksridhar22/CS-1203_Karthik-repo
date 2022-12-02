@@ -15,7 +15,7 @@ typedef struct node* NodeAddress;
 
 NodeAddress createNode(int val)
 {
-    NodeAddress ndoe = malloc(sizeof(struct node));
+    NodeAddress node = malloc(sizeof(struct node));
     node -> val = val; 
     node -> left = NULL;
     node-> right = NULL; 
@@ -33,21 +33,12 @@ int height(struct node* node)
 
 int max(int a, int b)
 {
-    if (a>b)
-        return (a > b) ? a : b;
+    
+    return (a > b) ? a : b;
     
 }
 
-NodeAddress createNode(int val)
-{
-    NodeAddress node = malloc(sizeof(struct node));
-    node ->val = val;
-    node -> left = NULL;
-    node -> right = NULL;
-    node -> height = 1;  //doubt
-    
-    return node; 
-}
+
 
 NodeAddress right_rotate(NodeAddress node)
 {
@@ -80,7 +71,7 @@ NodeAddress left_rotate(NodeAddress node)
 
 int getBalanceFactor(struct node* node)
 {
-    if (node = NULL)
+    if (node == NULL)
         return 0;
     return(height(node->left) - height(node -> right) );
 }
@@ -99,6 +90,7 @@ NodeAddress insertNode(NodeAddress node, int val)
     {
         node -> right = insertNode(node->right, val);
     }
+
 
     // balance the tree
 
@@ -168,10 +160,4 @@ int main()
     
     return 0;
 }
-
-
-
-
-
-
 
