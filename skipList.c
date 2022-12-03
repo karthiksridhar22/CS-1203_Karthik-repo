@@ -14,8 +14,10 @@ NodeAddress CreateRoot(int val){
     NodeAddress root = malloc(sizeof(struct node));
     root -> val = val;
     root -> next = malloc(sizeof(struct node) * 2);
-    return root;
+    root -> next[0] = malloc(sizeof(struct node));
+    root -> next[1] = malloc(sizeof(struct node));
     root->level = 2;
+    return root;
 }
 
 NodeAddress insertNode(NodeAddress root, int val){
@@ -30,11 +32,17 @@ NodeAddress insertNode(NodeAddress root, int val){
     int n = rand() %10;
     if ( n <= 2){
         temp = malloc(sizeof(struct node) * 2);
-        root->level = 2;
+        temp->level = 2;
+        temp -> next[0] = malloc(sizeof(struct node));
+        temp -> next[1] = malloc(sizeof(struct node));
     }
-    temp->val = val;
-    temp = malloc(sizeof(struct node));
-    root->level = 1;
+    else{
+        temp = malloc(sizeof(struct node));
+        temp->val = val;
+        temp->next[0] = malloc(sizeof(struct node));
+        temp->next[1] = malloc(sizeof(struct node));
+        temp->level = 1; 
+    }
     return root;
 }
 
@@ -42,11 +50,11 @@ NodeAddress CreateSkip(){
     NodeAddress root;
     int num;
     printf("enter the size of your skiplist");
-    scanf("%d\n", &num);
+    scanf("%d", &num);
+    int val;        
     for (int i = 0; i<num; i++){
-        int val;
         printf("enter the value for node %d", i);
-        scanf(" %d\n",&val);
+        scanf(" %d\n", &val);
         insertNode(root, val);
     }
     
@@ -73,7 +81,7 @@ void printList(struct node* n){
     while (n != NULL){
         NodeAddress temp = n;
         printf("%d ->", temp -> val);
-        temp = temp -> next; 
+        temp = temp -> next[0]; 
     }
 }
 
