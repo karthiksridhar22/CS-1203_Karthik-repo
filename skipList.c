@@ -50,7 +50,7 @@ NodeAddress CreateSkip(){
         insertNode(root, val);
     }
     
-    struct node * *list =calloc(sizeof (struct node)*num);
+    struct node * *list =calloc(num, sizeof (struct node));
     NodeAddress temp = root;
     int i = 0;
     while (temp){
@@ -68,7 +68,18 @@ NodeAddress CreateSkip(){
     return root;
 }
 
+void printList(struct node* n){
+
+    while (n != NULL){
+        NodeAddress temp = n;
+        printf("%d ->", temp -> val);
+        temp = temp -> next; 
+    }
+}
+
 int main(){
+NodeAddress root = CreateSkip();
+printf("%d", root->val);
 return 0;
 }
 
