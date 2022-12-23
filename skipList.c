@@ -1,95 +1,98 @@
-#include<stdio.h>
-#include<stdlib.h>
-#include<time.h>
+#include <stdio.h>
+#include <stdlib.h>
 
-struct node{
-    int val;
-    struct node** next; 
-    int level;
-};
+typedef struct skip_list_node {
+  int key;
+  int value;
+  struct skip_list_node *forward[2];
+} skip_list_node;
 
-typedef struct node* NodeAddress; 
+typedef struct skip_list {
+  skip_list_node *head;
+} skip_list;
 
-NodeAddress CreateRoot(int val){
-    NodeAddress root = malloc(sizeof(struct node));
-    root -> val = val;
-    root -> next = malloc(sizeof(struct node) * 2);
-    root -> next[0] = malloc(sizeof(struct node));
-    root -> next[1] = malloc(sizeof(struct node));
-    root->level = 2;
-    return root;
+skip_list *skip_list_init() {
+  skip_list *list = malloc(sizeof(skip_list));
+  list->head = malloc(sizeof(skip_list_node));
+  list->head->forward[0] = NULL;
+  list->head->forward[1] = NULL;
+  return list;
 }
 
-NodeAddress insertNode(NodeAddress root, int val){
-    if (root == NULL)
-    return CreateRoot(val);
-
-    NodeAddress temp = root; 
-    while(temp){
-        temp = temp ->  next[0];
+void skip_list_insert(skip_list *list, int key, int value) {
+  skip_list_node *update[2];
+  skip_list_node *x = list->head;
+  for (int i = 1; i >= 0; i--) {
+    while (x->forward[i] != NULL && x->forward[i]->key < key) {
+      x = x->forward[i];
     }
-    srand(time(NULL));
-    int n = rand() %10;
-    if ( n <= 2){
-        temp = malloc(sizeof(struct node) * 2);
-        temp->level = 2;
-        temp -> next[0] = malloc(sizeof(struct node));
-        temp -> next[1] = malloc(sizeof(struct node));
-    }
-    else{
-        temp = malloc(sizeof(struct node));
-        temp->val = val;
-        temp->next[0] = malloc(sizeof(struct node));
-        temp->next[1] = malloc(sizeof(struct node));
-        temp->level = 1; 
-    }
-    return root;
+    update[i] = x;
+  }
+  x = x->forward[0];
+  if (x == NULL || x->key != key) {
+    x = malloc(sizeof(skip_list_node));
+    x->key = key;
+    x->value = value;
+    x->forward[0] = update[0]->forward[0];
+    update[0]->forward[0] = x;
+    x->forward[1] = update[1]->forward[1];
+    update[1]->forward[1] = x;
+  }
 }
 
-NodeAddress CreateSkip(){
-    NodeAddress root;
-    int num;
-    printf("enter the size of your skiplist");
-    scanf("%d", &num);
-    int val;        
-    for (int i = 0; i<num; i++){
-        printf("enter the value for node %d", i);
-        scanf(" %d\n", &val);
-        insertNode(root, val);
+skip_list_node *skip_list_search(skip_list *list, int key) {
+  skip_list_node *x = list->head;
+  for (int i = 1; i >= 0; i--) {
+    while (x->forward[i] != NULL && x->forward[i]->key < key) {
+      x = x->forward[i];
     }
-    
-    struct node * *list =calloc(num, sizeof (struct node));
-    NodeAddress temp = root;
-    int i = 0;
-    while (temp){
-        if (temp->level ==2){
-            list[i] = temp;
-        }
-        i = i+1;
-        temp = temp ->next[0];
-    }
-    i = 0;
-    while(list[i] != 0){
-        list[i]->next[1] = list[i+1];
-        i = i + 1;
-    }
-    return root;
+  }
+  x = x->forward[0];
+  if (x != NULL && x->key == key) {
+    return x;
+  } else {
+    return NULL;
+  }
 }
 
-void printList(struct node* n){
-
-    while (n != NULL){
-        NodeAddress temp = n;
-        printf("%d ->", temp -> val);
-        temp = temp -> next[0]; 
+void skip_list_delete(skip_list *list, int key) {
+  skip_list_node *update[2];
+  skip_list_node *x = list->head;
+  for (int i = 1; i >= 0; i--) {
+    while (x->forward[i] != NULL && x->forward[i]->key < key) {
+      x = x->forward[i];
     }
+    update[i] = x;
+  }
+  x = x->forward[0];
+  if (x != NULL && x->key == key) {
+    update[0]->forward[0] = x->forward[0];
+    update[1]->forward[1] = x->forward[1];
+    free(x);
+  }
 }
 
-int main(){
-NodeAddress root = CreateSkip();
-printf("%d", root->val);
-return 0;
+int main() {
+  skip_list *list = skip_list_init();
+
+  skip_list_insert(list, 1, 10);
+  skip_list_insert(list, 2, 20);
+  skip_list_insert(list, 3, 30);
+  skip_list_insert(list, 4, 40);
+  skip_list_insert(list, 5, 50);
+
+  skip_list_node *node = skip_list_search(list, 3);
+  if (node != NULL) {
+    printf("Key: %d, Value: %d\n", node->key, node->value);
+  }
+
+  skip_list_delete(list, 3);
+  node = skip_list_search(list, 3);
+  if (node == NULL) {
+    printf("Key 3 not found\n");
+  }
+
+  return 0;
 }
 
-
-
+ 
